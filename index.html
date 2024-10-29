@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator-SM</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="calculator">
+            <h1>Find Urs!! <br> <span>Age Calculator</span></h1>
+            <div class="input-box">
+                <input type="date" id="date">
+                <button onclick="calculateAge()">Calculate</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <!-- Age Calculation Script -->
+    <script>
+        // Limit date selection to today or earlier
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
+        let result = document.getElementById("result");
+
+        function calculateAge(){
+            let birthDate = new Date(document.getElementById("date").value);
+
+            let d1 = birthDate.getDate();
+            let m1 = birthDate.getMonth() + 1;
+            let y1 = birthDate.getFullYear();
+
+            let today = new Date();
+            let d2 = today.getDate();
+            let m2 = today.getMonth() + 1;
+            let y2 = today.getFullYear();
+
+            let d3, m3, y3;
+            y3 = y2 - y1;
+
+            if(m2 >= m1){
+                m3 = m2 - m1;
+            } else {
+                y3--;
+                m3 = 12 + m2 - m1;
+            }
+
+            if(d2 >= d1){
+                d3 = d2 - d1;
+            } else {
+                m3--;
+                d3 = getDaysInMonth(y1, m1) + d2 - d1;
+            }
+
+            if(m3 < 0) {
+                m3 = 11;
+                y3--;
+            }
+
+            result.innerHTML = `Hey!! You are <span>${y3}</span> years, <span>${m3}</span> months, <span>${d3}</span> days old.`;
+        }
+
+        function getDaysInMonth(year, month){
+            return new Date(year, month, 0).getDate();
+        }
+
+        // Particles.js Initialization
+        particlesJS("particles-js", {"particles":{"number":{"value":80,"density":{"enable":true,"value_area":800}},"color":{"value":"#ffffff"},"shape":{"type":"circle","stroke":{"width":0,"color":"#000000"},"polygon":{"nb_sides":5},"image":{"src":"img/github.svg","width":100,"height":100}},"opacity":{"value":0.5,"random":false,"anim":{"enable":false,"speed":1,"opacity_min":0.1,"sync":false}},"size":{"value":3,"random":true,"anim":{"enable":false,"speed":40,"size_min":0.1,"sync":false}},"line_linked":{"enable":true,"distance":150,"color":"#ffffff","opacity":0.4,"width":1},"move":{"enable":true,"speed":6,"direction":"none","random":false,"straight":false,"out_mode":"out","bounce":false,"attract":{"enable":false,"rotateX":600,"rotateY":1200}}},"interactivity":{"detect_on":"canvas","events":{"onhover":{"enable":true,"mode":"grab"},"onclick":{"enable":true,"mode":"push"},"resize":true},"modes":{"grab":{"distance":365.41397343034424,"line_linked":{"opacity":0.6416478833846109}},"bubble":{"distance":400,"size":40,"duration":2,"opacity":8,"speed":3},"repulse":{"distance":200,"duration":0.4},"push":{"particles_nb":4},"remove":{"particles_nb":2}}},"retina_detect":true});var count_particles, stats, update; stats = new Stats; stats.setMode(0); stats.domElement.style.position = 'absolute'; stats.domElement.style.left = '0px'; stats.domElement.style.top = '0px'; document.body.appendChild(stats.domElement); count_particles = document.querySelector('.js-count-particles'); update = function() { stats.begin(); stats.end(); if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; } requestAnimationFrame(update); }; requestAnimationFrame(update);;
+    </script>
+</body>
+</html>
